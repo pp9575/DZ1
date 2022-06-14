@@ -1,8 +1,8 @@
 public class Workers {
-    String name;
-    String warehouse;
-    int liftPower;
-    int spoiledVodka;
+    private String name;
+    private String warehouse;
+    private int liftPower;
+    private int spoiledVodka = 0;
 
     public void spoilVodka() {
         spoiledVodka += liftPower;
@@ -10,11 +10,10 @@ public class Workers {
         System.out.println(name + ": Ура! Я испортил " + liftPower + " водки!");
     }
 
-    public Workers(String name, String warehouse, int liftPower, int spoiledVodka) {
+    public Workers(String name, String warehouse, int liftPower) {
         this.name = name;
         this.warehouse = warehouse;
         this.liftPower = liftPower;
-        this.spoiledVodka = spoiledVodka;
     }
 
     public String getName() {

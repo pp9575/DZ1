@@ -82,14 +82,15 @@ public class Homework {
         // "Ура я испортил водку!" и добавляет к себе в журнал количество испорченного товара.
         // У склада есть только одна позиция - Водка.
 
-            Workers worker1 = new Workers("Vasya", "Kolpino", 3, 0);
-            Workers worker2 = new Workers("Petya", "Kolpino", 5, 0);
-            Workers worker3 = new Workers("Kirill", "Kolpino", 4, 0);
+            Workers worker1 = new Workers("Vasya", "Kolpino", 3);
+            Workers worker2 = new Workers("Misha", "Kolpino", 5);
+            Workers worker3 = new Workers("Kirill", "Kolpino", 4);
             worker1.spoilVodka();
             worker2.spoilVodka();
             worker3.spoilVodka();
             worker2.spoilVodka();
             System.out.println("На складе осталось " + WarehouseKolpino.getVodka() + " водки");
+            System.out.println(worker2.getName() + " испортил уже " + worker2.getSpoiledVodka() + " водки.");
 
 
 
