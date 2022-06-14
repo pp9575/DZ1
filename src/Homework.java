@@ -1,56 +1,99 @@
 public class Homework {
     public static void main(String[] args) {
-//Продвинутый уровень
-        //Задача №1
-        //Произвести преобразование "234" в число типа int и прибавить к этому числу длину строки "some_text"
-        System.out.println("Задача №1");
-            String firstString = "234";
-            String secondString = "some_text";
-            int result = Integer.parseInt(firstString) + secondString.length();
-            System.out.println(result);
-
-        //Задача №2
-        //Посчитать (a+b)^2 = ?, при a=3, b=5
-
-        System.out.println("Задача №2");
-            int a = 3;
-            int b = 5;
-            System.out.println((a + b) * (a * b));
-
-        //Задача №3
-        //Создать два массив чисел:
-        // 1,2,5,7,10
-        // 2,3,2,17,15
-        // Создать массив чисел, в котором будут: все числа из этих двух массивов,
-        // и результат умножения чисел с одинаковым порядковым номером
-        //
-        //Ожидаемый результат:
-        //1,2,5,7,10,2,3,2,17,15,2,6,10,119,150
-        //(первый массив - 1,2,5,7,10), (второй массив - 2,3,2,17,15),
-        //(результат перемножения - (1*2), (2*3), (5*2), (7*17), (10*15)
-        System.out.println("Задача №3");
-            int[] array1 = {1, 2, 5, 7, 10};
-            int[] array2 = {2, 3, 2, 17, 15};
-            int[] array_result = new int[array1.length * 3];
-            //можно было бы использовать Arrays.copyOf, но буду руками
-            for (int i = 0; i < array_result.length; i++) {
-                if (i < array1.length) {
-                    array_result[i] = array1[i];
-                } else if (i < (array1.length + array2.length)) {
-                    array_result[i] = array2[i - array1.length];
-                } else {
-                    array_result[i] = array1[i - (array1.length + array2.length)] * array2[i - (array1.length + array2.length)];
+        // Задание №1: Написать цикл, который будет прибавлять число к result до тех пор,
+        // пока не получиться больше 1_000_000.
+        // Дано:
+        double increment = 0.01123;
+        double result = 0;
+        // Вывести на экран, количество итераций, которое потребовалось, чтобы дойти до миллиона.
+        // Если число отрицательное, то сразу заканчиваем цикл, ничего не выводя.
+        // Внимание: число может измениться, и не должно приводить к изменению вашего кода.
+            long iCount = 0L;
+            do {
+                if (increment <= 0) {
+                    break;
                 }
-                System.out.print(array_result[i] + ",");
+                result += increment;
+                iCount++;
             }
-        System.out.println();
+            while (result <= 1_000_000);
+            if (result != 0) {
+                System.out.println(iCount);
+            }
 
-        //Задача №4
-        //В слове "Hello world!" заменить l на r, сделать все буквы заглавными, выбрать первые 8 символов
-        System.out.println("Задача №4");
-            String string1 = "Hello world!";
-            System.out.println(string1.replace('l', 'r').toUpperCase().substring(0,8));
+        // Задание №2: Дан массив единиц, произвольной длины. Создать цикл, который заменяет каждый четный элемент на 0;
+        // Например, дано: [1,1,1,1,1]
+        // Ожидаемый результат: [0,1,0,1,0]
+        // Подсказка: прочитай про операнд "%".
+            int[] input = {1, 1, 1, 1, 1};
+            for (int i = 0; i < input.length; i++) {
+                if (i % 2 == 0) {
+                    input[i] = 0;
+                }
+                System.out.print(i < (input.length - 1) ? input[i] + ", " : input[i] + "\n");
+            }
+
+        // Задание №3:
+        // Дано:
+        boolean hasFuel = false;
+        boolean hasElectricsProblem = false;
+        boolean hasMotorProblem = true;
+        boolean hasTransmissionProblem = true;
+        boolean hasWheelsProblem = false;
+        // В автосервис приехала сломанная машина. Механики находят неисправность следующим способом:
+        // Если у машины нет бензина и ничего не сломано, то отдают машину владельцу и берут 1000 рублей за консультацию.
+        // Если у машины проблема с двигателем, то чинят и берут 10 000.
+        // Если у машины проблема с электрикой, то чинят и берут 5000.
+        // Если у машины проблема с коробкой передач, то чинят и берут 4000.
+        // Если у машины проблема с колесами, то чинят и берут 2000.
+        // Если две детали сломаны, то на общий счет идет скидка 10%.
+        // Если сломана коробка передач, и электрика или двигатель, то на общий счет скидка 20%.
+        // Если нет бензина и что-то сломано, то за консультацию денег не берут.
+        // Ситуации, что бензин есть и ничего не сломано - быть не может.
+        // Ожидаемый результат: выведен на экран счет клиенту.
+            int invoice = 0;
+            if (!hasFuel && !hasElectricsProblem && !hasMotorProblem && !hasTransmissionProblem && !hasWheelsProblem) {
+                invoice += 1000;
+            }
+
+            if (hasMotorProblem) {
+                invoice += 10_000;
+            }
+            if (hasElectricsProblem) {
+                invoice += 5000;
+            }
+            if (hasTransmissionProblem) {
+                invoice += 4000;
+            }
+            if (hasWheelsProblem) {
+                invoice += 2000;
+            }
+            if (hasTransmissionProblem && (hasElectricsProblem || hasMotorProblem)) {
+                invoice = invoice * 8 / 10;
+            }
+            System.out.println(invoice);
+
+        // Задание №4:
+        // Написать систему управления складскими запасами. Создать класс склад, создать класс работники
+        // (написать геттеры на все аттрибуты).
+        // Количество работников минимум 3.
+        // Работники берут из склада товар, и портят его. Нужно написать взаимодействие через методы работников и склад:
+        // Работник берет из склада товар, на складе товар уменьшается. Работник когда взял товар, выводит на экран
+        // "Ура я испортил водку!" и добавляет к себе в журнал количество испорченного товара.
+        // У склада есть только одна позиция - Водка.
+
+            Workers worker1 = new Workers("Vasya", "Kolpino", 3, 0);
+            Workers worker2 = new Workers("Petya", "Kolpino", 5, 0);
+            Workers worker3 = new Workers("Kirill", "Kolpino", 4, 0);
+            worker1.spoilVodka();
+            worker2.spoilVodka();
+            worker3.spoilVodka();
+            worker2.spoilVodka();
+            System.out.println("На складе осталось " + WarehouseKolpino.getVodka() + " водки");
+
+
+
+
 
     }
 }
-
