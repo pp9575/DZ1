@@ -1,96 +1,119 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
+
 public class Homework {
-    public static void main(String[] args) {
-        // Задание №1: Написать цикл, который будет прибавлять число к result до тех пор,
-        // пока не получиться больше 1_000_000.
-        // Дано:
-        double increment = 0.01123;
-        double result = 0;
-        // Вывести на экран, количество итераций, которое потребовалось, чтобы дойти до миллиона.
-        // Если число отрицательное, то сразу заканчиваем цикл, ничего не выводя.
-        // Внимание: число может измениться, и не должно приводить к изменению вашего кода.
-            long iCount = 0L;
+    public static void main(String[] args) throws IOException {
+        //Базовый уровень (для зачета нужно сделать хотя бы 2 из 3)
+        //Задача №1
+        //Дано: у нас есть две модели машин - жигули и toyota. Каждая из этих машин умеет: начинать движение,
+        //останавливаться, включать фары. У жигули есть особенность: она ломается. У Toyota особенность: включает музыку
+        //Необходимо:
+        // 1.Создать абстрактный класс, который будет описывать общие действия этих машин (методы будут не абстрактные)
+        // 2.Создать два класса, которые будут наследоваться от абстрактного класса, и реализовывать особенности этих машин
+        // Методы должны просто печатать на экран действия машин (начал движение, включил музыку и тд.)
+            Toyota corolla = new Toyota();
+            Lada samara = new Lada();
+            corolla.music();
+            corolla.start();
+            corolla.lights();
+            samara.lights();
+            samara.start();
+            samara.broken();
+
+
+        //Задача №2
+        //Необходимо:
+        // 1. Создать папку resource, пометить ее как папку Resourсe root.
+        // 2. Создать в ней файл "my_first_file.txt". На первой строке написать: "Моя бабушка", на второй: "читает газету жизнь"
+        // 3. Прочитать файл, и вывести на экран все слова файла в одну строку
+        // Ожидаемый результат: "Моя бабушка читает газету жизнь"
+
+            FileReader fileReader = new FileReader("C:\\temp\\Java\\DZ1\\resource\\my_first_file.txt");
+            String output = "";
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
             do {
-                if (increment <= 0) {
-                    break;
-                }
-                result += increment;
-                iCount++;
+                output = output + bufferedReader.readLine() + " ";
             }
-            while (result <= 1_000_000);
-            if (result != 0) {
-                System.out.println(iCount);
+            while (bufferedReader.ready());
+            System.out.println(output);
+            bufferedReader.close();
+            fileReader.close();
+
+        //Задача №3
+        //Необходимо:
+        // 1. Создать класс Financial record, с двумя атрибутами: incomes, outcomes (доходы, расходы)
+        // 2. Создать в этом классе геттеры, сеттеры и конструктор на все атрибуты
+        // 3. Создать объект этого класса прямо здесь (class Homework3, метод main), с доходами 500, расходами 300
+        // 4. Записать в файл "report.txt" данные из объекта класса.
+        // Ожидаемый результат: в файле report.txt - одна строка: доходы = 500, расходы 300
+
+            FinancialRecord record = new FinancialRecord(500, 300);
+            FileWriter fileWriter = new FileWriter("C:\\temp\\Java\\DZ1\\resource\\report.txt");
+            fileWriter.write("доходы = " + record.getIncome() +", расходы = " + record.getOutcome());
+            fileWriter.close();
+
+        //Продвинутый уровень
+        //Задача №1
+        // Сделать задачу №1 из базовой.
+        // 1. Создать класс CarFactory, у которого есть два статических методы: создать жигули, создать toyota.
+        // 2. Создать 20 тойот, 20 жигулей с помощью CarFactory, положить их в один массив.
+        // 3. Пройтись по массиву, проверить к какому классу принадлежит машина, привести тип к классу машины
+        // и вызвать характерные для нее методы.
+            Cars[] carsArray = new Cars[40];
+            for (int i = 0; i < 40; i++) {
+                if (i < 20) {
+                   carsArray[i] = CarFactory.createLada();
+                }
+                else {
+                   carsArray[i] = CarFactory.createToyota();
+                }
+            }
+            for (Cars car:
+                 carsArray) {
+                if(car instanceof Lada) {
+                    ((Lada) car).broken();
+                } else if (car instanceof Toyota) {
+                    ((Toyota) car).music();
+                }
             }
 
-        // Задание №2: Дан массив единиц, произвольной длины. Создать цикл, который заменяет каждый четный элемент на 0;
-        // Например, дано: [1,1,1,1,1]
-        // Ожидаемый результат: [0,1,0,1,0]
-        // Подсказка: прочитай про операнд "%".
-            int[] input = {1, 1, 1, 1, 1};
-            for (int i = 0; i < input.length; i++) {
+        //Задача №2
+        // 1. Создать класс Financial record, с двумя атрибутами: incomes, outcomes (доходы, расходы)
+        // 2. Создать в этом классе геттеры, сеттеры и конструктор на все атрибуты
+        // 3. Создать 10 отчетов, с разными доходами и расходами (Смотри класс new Random(1).nextInt() )
+        // 4. Записать в файл "report.txt" все данные из отчетов.
+        // 5. Прочитать файл report.txt, просуммировать все доходы и вывести на экран, тоже самое с расходами
+        // Ожидаемый результат: общие доходы - (какое то число), общие расходы - (какое то число)
+            FinancialRecord[] financialArray = new FinancialRecord[10];
+            for (int i = 0; i < 10; i++) {
+                financialArray[i] = new FinancialRecord((new Random().nextInt(500)), (new Random().nextInt(500)));
+            }
+            FileWriter fileWriter1 = new FileWriter("C:\\temp\\Java\\DZ1\\resource\\arrayReport.txt");
+            for (int i = 0; i < 10; i++) {
+                fileWriter1.append(financialArray[i].getIncome() + ";" + financialArray[i].getOutcome() + ";");
+            }
+            fileWriter1.close();
+            String outputTsk2 = "";
+            FileReader fileReader1 = new FileReader("C:\\temp\\Java\\DZ1\\resource\\arrayReport.txt");
+            while (fileReader1.ready()){
+                outputTsk2 += (char) fileReader1.read();
+            }
+            String[] resultString = outputTsk2.split(";");
+            int income = 0;
+            int outcome = 0;
+            for (int i = 0; i < resultString.length; i++) {
                 if (i % 2 == 0) {
-                    input[i] = 0;
+                    income += Integer.parseInt(resultString[i]);
                 }
-                System.out.print(i < (input.length - 1) ? input[i] + ", " : input[i] + "\n");
+                else {
+                    outcome += Integer.parseInt(resultString[i]);
+                }
             }
+            System.out.println("общие доходы - " + income + ", общие расходы - " + outcome);
 
-        // Задание №3:
-        // Дано:
-        boolean hasFuel = false;
-        boolean hasElectricsProblem = false;
-        boolean hasMotorProblem = true;
-        boolean hasTransmissionProblem = true;
-        boolean hasWheelsProblem = false;
-        // В автосервис приехала сломанная машина. Механики находят неисправность следующим способом:
-        // Если у машины нет бензина и ничего не сломано, то отдают машину владельцу и берут 1000 рублей за консультацию.
-        // Если у машины проблема с двигателем, то чинят и берут 10 000.
-        // Если у машины проблема с электрикой, то чинят и берут 5000.
-        // Если у машины проблема с коробкой передач, то чинят и берут 4000.
-        // Если у машины проблема с колесами, то чинят и берут 2000.
-        // Если две детали сломаны, то на общий счет идет скидка 10%.
-        // Если сломана коробка передач, и электрика или двигатель, то на общий счет скидка 20%.
-        // Если нет бензина и что-то сломано, то за консультацию денег не берут.
-        // Ситуации, что бензин есть и ничего не сломано - быть не может.
-        // Ожидаемый результат: выведен на экран счет клиенту.
-            int invoice = 0;
-            if (!hasFuel && !hasElectricsProblem && !hasMotorProblem && !hasTransmissionProblem && !hasWheelsProblem) {
-                invoice += 1000;
-            }
-
-            if (hasMotorProblem) {
-                invoice += 10_000;
-            }
-            if (hasElectricsProblem) {
-                invoice += 5000;
-            }
-            if (hasTransmissionProblem) {
-                invoice += 4000;
-            }
-            if (hasWheelsProblem) {
-                invoice += 2000;
-            }
-            if (hasTransmissionProblem && (hasElectricsProblem || hasMotorProblem)) {
-                invoice = invoice * 8 / 10;
-            }
-            System.out.println(invoice);
-
-        // Задание №4:
-        // Написать систему управления складскими запасами. Создать класс склад, создать класс работники
-        // (написать геттеры на все аттрибуты).
-        // Количество работников минимум 3.
-        // Работники берут из склада товар, и портят его. Нужно написать взаимодействие через методы работников и склад:
-        // Работник берет из склада товар, на складе товар уменьшается. Работник когда взял товар, выводит на экран
-        // "Ура я испортил водку!" и добавляет к себе в журнал количество испорченного товара.
-        // У склада есть только одна позиция - Водка.
-
-            Workers worker1 = new Workers("Vasya", "Kolpino", 3);
-            Workers worker2 = new Workers("Misha", "Kolpino", 5);
-            Workers worker3 = new Workers("Kirill", "Kolpino", 4);
-            worker1.spoilVodka();
-            worker2.spoilVodka();
-            worker3.spoilVodka();
-            worker2.spoilVodka();
-            System.out.println("На складе осталось " + WarehouseKolpino.getVodka() + " водки");
-            System.out.println(worker2.getName() + " испортил уже " + worker2.getSpoiledVodka() + " водки.");
 
 
 

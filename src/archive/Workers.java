@@ -1,3 +1,5 @@
+package archive;
+
 public class Workers {
     private String name;
     private String warehouse;
