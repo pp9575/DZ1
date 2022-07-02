@@ -1,3 +1,5 @@
+package archive;
+
 public class FinancialRecord {
     private int income = 0;
     private int outcome = 0;

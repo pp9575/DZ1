@@ -94,7 +94,7 @@ public class Homework {
             System.out.println("На складе осталось " + WarehouseKolpino.getVodka() + " водки");
             System.out.println(worker2.getName() + " испортил уже " + worker2.getSpoiledVodka() + " водки.");
 
-
+//_____________________________________________________________________________________________________________________
 
 
 
